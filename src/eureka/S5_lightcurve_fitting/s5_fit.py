@@ -112,6 +112,10 @@ def fitlc(eventlabel, ecf_path=None, s4_meta=None):
             log.writelog(f"Input directory: {meta.inputdir}")
             log.writelog(f"Output directory: {meta.outputdir}")
 
+            # Check for manually clipped data points
+            if hasattr(meta, 'manual_clip') and meta.manual_clip:
+                lc, log = util.manual_clip(lc, meta, log)
+
             # Copy ECF
             log.writelog('Copying S5 control file', mute=(not meta.verbose))
             meta.copy_ecf()
